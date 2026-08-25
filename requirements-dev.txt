@@ -1,0 +1,2 @@
+# Dev/test-only dependencies (not needed in the Fabric runtime).
+pytest>=8.0

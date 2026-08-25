@@ -42,4 +42,6 @@ for ev in github_paginate(audit_url, headers, params=audit_params):
     audit_events.append(ev)
 
 print(f"Copilot audit events: {len(audit_events)}")
-write_delta(audit_events, f"{bronze}github_copilot_audit", mode="append")
+# Idempotent: audit events carry a unique '_document_id'. Re-runs with an overlapping
+# lookback window will NOT duplicate rows (Delta MERGE inserts only new keys).
+upsert_delta(audit_events, f"{bronze}github_copilot_audit", key_field="_document_id")

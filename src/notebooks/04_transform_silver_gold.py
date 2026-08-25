@@ -13,6 +13,8 @@
 
 # CELL ********************
 
+# NOTE: The bronze->silver field mapping/typing below is mirrored, and unit-tested, in
+# src/transform/silver.py (see tests/test_silver.py). Keep the two in sync.
 from pyspark.sql import functions as F
 
 cfg = load_config()

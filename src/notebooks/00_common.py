@@ -125,3 +125,57 @@ def write_delta(rows: List[dict], table_name: str, mode: str = "append") -> int:
     (df.write.format("delta").mode(mode).option("mergeSchema", "true").saveAsTable(table_name))
     print(f"[write_delta] wrote {len(rows)} rows -> {table_name}")
     return len(rows)
+
+
+def upsert_delta(rows: List[dict], table_name: str, key_field: str) -> int:
+    """Idempotently write rows to a bronze Delta table, de-duplicating on `key_field`.
+
+    Re-running ingestion (e.g. overlapping lookback windows) will NOT create duplicate
+    rows: each record's `key_field` becomes a stable `_dedup_key` and a Delta MERGE
+    inserts only keys that are not already present. Use for append-style sources with a
+    natural unique id (e.g. GitHub audit events keyed by `_document_id`).
+    """
+    if not rows:
+        print(f"[upsert_delta] no rows for {table_name}")
+        return 0
+    ingest_ts = dt.datetime.utcnow().isoformat()
+    normalized = []
+    skipped = 0
+    for r in rows:
+        key = r.get(key_field)
+        if key is None:
+            skipped += 1
+            continue
+        normalized.append({
+            "_dedup_key": str(key),
+            "_ingested_at_utc": ingest_ts,
+            "payload": json.dumps(r, default=str),
+        })
+    if skipped:
+        print(f"[upsert_delta] skipped {skipped} rows missing key '{key_field}'")
+    if not normalized:
+        return 0
+    # De-dup within this batch first (keep first occurrence per key).
+    seen: set = set()
+    deduped = []
+    for row in normalized:
+        if row["_dedup_key"] in seen:
+            continue
+        seen.add(row["_dedup_key"])
+        deduped.append(row)
+
+    df = spark.createDataFrame(deduped)  # noqa: F821
+    if spark.catalog.tableExists(table_name):  # noqa: F821
+        from delta.tables import DeltaTable
+        target = DeltaTable.forName(spark, table_name)  # noqa: F821
+        (
+            target.alias("t")
+            .merge(df.alias("s"), "t._dedup_key = s._dedup_key")
+            .whenNotMatchedInsertAll()
+            .execute()
+        )
+        print(f"[upsert_delta] merged {len(deduped)} rows -> {table_name} (dupes ignored)")
+    else:
+        (df.write.format("delta").mode("overwrite").option("mergeSchema", "true").saveAsTable(table_name))
+        print(f"[upsert_delta] created {table_name} with {len(deduped)} rows")
+    return len(deduped)
