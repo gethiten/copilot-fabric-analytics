@@ -1,0 +1,66 @@
+/// Central measures table. (Relationships live in model.tmdl.)
+table '_Measures'
+	lineageTag: 9e0f1a2b-2001-4000-8000-000000000001
+
+	measure 'Total Net Cost' = SUM(CostDaily[net_cost_usd])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 9e0f1a2b-2001-4000-8000-000000000011
+
+	measure 'Total Gross Cost' = SUM(CostDaily[gross_cost_usd])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 9e0f1a2b-2001-4000-8000-000000000012
+
+	measure 'GitHub Copilot Cost' = CALCULATE([Total Net Cost], CostDaily[source] = "github_copilot")
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 9e0f1a2b-2001-4000-8000-000000000013
+
+	measure 'Total Usage Units' = SUM(CostDaily[usage_units])
+		formatString: #,0
+		lineageTag: 9e0f1a2b-2001-4000-8000-000000000014
+
+	measure 'Assigned Seats' = SUM(Adoption[assigned_seats])
+		formatString: #,0
+		lineageTag: 9e0f1a2b-2001-4000-8000-000000000015
+
+	measure 'Active Seats (30d)' = SUM(Adoption[active_seats_30d])
+		formatString: #,0
+		lineageTag: 9e0f1a2b-2001-4000-8000-000000000016
+
+	measure 'Adoption % (30d)' = DIVIDE([Active Seats (30d)], [Assigned Seats])
+		formatString: 0.0%
+		lineageTag: 9e0f1a2b-2001-4000-8000-000000000017
+
+	measure 'Cost per Active User' = DIVIDE([GitHub Copilot Cost], [Active Seats (30d)])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 9e0f1a2b-2001-4000-8000-000000000018
+
+	measure 'Total Tokens' = SUM(TokenUsage[total_tokens])
+		formatString: #,0
+		lineageTag: 9e0f1a2b-2001-4000-8000-000000000019
+
+	measure 'Prompt Tokens' = SUM(TokenUsage[prompt_tokens])
+		formatString: #,0
+		lineageTag: 9e0f1a2b-2001-4000-8000-000000000020
+
+	measure 'Completion Tokens' = SUM(TokenUsage[completion_tokens])
+		formatString: #,0
+		lineageTag: 9e0f1a2b-2001-4000-8000-000000000021
+
+	column _dummy
+		isHidden
+		dataType: int64
+		lineageTag: 9e0f1a2b-2001-4000-8000-000000000099
+		summarizeBy: none
+		sourceColumn: _dummy
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+					Source = #table(type table [_dummy = Int64.Type], {{1}})
+				in
+					Source
+
+	annotation PBI_ResultType = Table

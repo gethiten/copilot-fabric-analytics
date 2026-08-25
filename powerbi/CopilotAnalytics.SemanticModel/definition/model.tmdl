@@ -1,0 +1,30 @@
+/// Copilot Analytics semantic model.
+/// Import mode over the Fabric Lakehouse SQL analytics endpoint views (sql/gold_views.sql).
+/// Set the ServerEndpoint and DatabaseName parameters on first open / refresh.
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+
+	annotation PBI_QueryOrder = ["ServerEndpoint","DatabaseName","CostDaily","DimDate","Adoption","TokenUsage","_Measures"]
+
+	annotation PBI_ProTooling = ["DevMode"]
+
+ref table ServerEndpoint
+ref table DatabaseName
+ref table CostDaily
+ref table DimDate
+ref table Adoption
+ref table TokenUsage
+ref table '_Measures'
+
+/// Date -> daily cost/usage fact
+relationship rel_DimDate_CostDaily
+	fromColumn: CostDaily.usage_date
+	toColumn: DimDate.usage_date
+
+/// Date -> token usage fact
+relationship rel_DimDate_TokenUsage
+	fromColumn: TokenUsage.usage_date
+	toColumn: DimDate.usage_date

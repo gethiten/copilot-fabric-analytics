@@ -1,0 +1,49 @@
+/// GitHub Copilot seat adoption (vw_github_copilot_adoption).
+table Adoption
+	lineageTag: 7c0d1e2f-1003-4000-8000-000000000301
+
+	column plan_type
+		dataType: string
+		lineageTag: 7c0d1e2f-1003-4000-8000-000000000311
+		summarizeBy: none
+		sourceColumn: plan_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column assigned_seats
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7c0d1e2f-1003-4000-8000-000000000312
+		summarizeBy: sum
+		sourceColumn: assigned_seats
+
+		annotation SummarizationSetBy = Automatic
+
+	column active_seats_30d
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7c0d1e2f-1003-4000-8000-000000000313
+		summarizeBy: sum
+		sourceColumn: active_seats_30d
+
+		annotation SummarizationSetBy = Automatic
+
+	column adoption_pct_30d
+		dataType: double
+		formatString: 0.0"%"
+		lineageTag: 7c0d1e2f-1003-4000-8000-000000000314
+		summarizeBy: none
+		sourceColumn: adoption_pct_30d
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Adoption = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(ServerEndpoint, DatabaseName),
+					data = Source{[Schema="dbo", Item="vw_github_copilot_adoption"]}[Data]
+				in
+					data
+
+	annotation PBI_ResultType = Table

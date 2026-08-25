@@ -1,0 +1,65 @@
+/// Unified daily cost & usage by source (vw_copilot_cost_daily).
+table CostDaily
+	lineageTag: 7c0d1e2f-1001-4000-8000-000000000101
+
+	column usage_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 7c0d1e2f-1001-4000-8000-000000000111
+		summarizeBy: none
+		sourceColumn: usage_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column source
+		dataType: string
+		lineageTag: 7c0d1e2f-1001-4000-8000-000000000112
+		summarizeBy: none
+		sourceColumn: source
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_unit_type
+		dataType: string
+		lineageTag: 7c0d1e2f-1001-4000-8000-000000000113
+		summarizeBy: none
+		sourceColumn: usage_unit_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column usage_units
+		dataType: double
+		lineageTag: 7c0d1e2f-1001-4000-8000-000000000114
+		summarizeBy: sum
+		sourceColumn: usage_units
+
+		annotation SummarizationSetBy = Automatic
+
+	column net_cost_usd
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 7c0d1e2f-1001-4000-8000-000000000115
+		summarizeBy: sum
+		sourceColumn: net_cost_usd
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_cost_usd
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 7c0d1e2f-1001-4000-8000-000000000116
+		summarizeBy: sum
+		sourceColumn: gross_cost_usd
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CostDaily = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(ServerEndpoint, DatabaseName),
+					data = Source{[Schema="dbo", Item="vw_copilot_cost_daily"]}[Data]
+				in
+					data
+
+	annotation PBI_ResultType = Table

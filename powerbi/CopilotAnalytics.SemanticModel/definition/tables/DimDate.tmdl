@@ -1,0 +1,60 @@
+/// Date dimension (gold_dim_date). Marked as the model's date table.
+table DimDate
+	dataCategory: Time
+	lineageTag: 7c0d1e2f-1002-4000-8000-000000000201
+
+	column usage_date
+		isKey
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 7c0d1e2f-1002-4000-8000-000000000211
+		summarizeBy: none
+		sourceColumn: usage_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c0d1e2f-1002-4000-8000-000000000212
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c0d1e2f-1002-4000-8000-000000000213
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month
+		dataType: string
+		lineageTag: 7c0d1e2f-1002-4000-8000-000000000214
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c0d1e2f-1002-4000-8000-000000000215
+		summarizeBy: none
+		sourceColumn: day_of_week
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDate = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(ServerEndpoint, DatabaseName),
+					data = Source{[Schema="dbo", Item="gold_dim_date"]}[Data]
+				in
+					data
+
+	annotation PBI_ResultType = Table

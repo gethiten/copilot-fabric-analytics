@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "CopilotAnalytics"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "b1f0c2a4-1d2e-4a3b-9c8d-000000000001"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "name": "pl_copilot_analytics_daily",
+  "description": "Daily orchestration: ingest GitHub Copilot + Copilot Studio telemetry, then build silver/gold. Chain: 01 -> 02 -> 03 -> 04. Import into Fabric Data Factory and map each notebook activity to the corresponding imported notebook.",
+  "properties": {
+    "activities": [
+      {
+        "name": "Ingest_GitHub_Cost_Usage",
+        "type": "TridentNotebook",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.02:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 60,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "typeProperties": {
+          "notebookId": "<REPLACE_WITH_NOTEBOOK_ID_01>",
+          "workspaceId": "<REPLACE_WITH_WORKSPACE_ID>",
+          "parameters": {
+            "lookback_days": { "value": "30", "type": "int" }
+          }
+        }
+      },
+      {
+        "name": "Ingest_GitHub_Seats_Audit",
+        "type": "TridentNotebook",
+        "dependsOn": [
+          { "activity": "Ingest_GitHub_Cost_Usage", "dependencyConditions": ["Succeeded"] }
+        ],
+        "policy": {
+          "timeout": "0.02:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 60,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "typeProperties": {
+          "notebookId": "<REPLACE_WITH_NOTEBOOK_ID_02>",
+          "workspaceId": "<REPLACE_WITH_WORKSPACE_ID>"
+        }
+      },
+      {
+        "name": "Ingest_CopilotStudio_Tokens",
+        "type": "TridentNotebook",
+        "dependsOn": [
+          { "activity": "Ingest_GitHub_Seats_Audit", "dependencyConditions": ["Succeeded"] }
+        ],
+        "policy": {
+          "timeout": "0.02:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 60,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "typeProperties": {
+          "notebookId": "<REPLACE_WITH_NOTEBOOK_ID_03>",
+          "workspaceId": "<REPLACE_WITH_WORKSPACE_ID>"
+        }
+      },
+      {
+        "name": "Transform_Silver_Gold",
+        "type": "TridentNotebook",
+        "dependsOn": [
+          { "activity": "Ingest_CopilotStudio_Tokens", "dependencyConditions": ["Succeeded", "Completed"] }
+        ],
+        "policy": {
+          "timeout": "0.02:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 60,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "typeProperties": {
+          "notebookId": "<REPLACE_WITH_NOTEBOOK_ID_04>",
+          "workspaceId": "<REPLACE_WITH_WORKSPACE_ID>"
+        }
+      }
+    ],
+    "policy": {
+      "elapsedTimeMetric": {}
+    },
+    "annotations": ["copilot-analytics"]
+  }
+}

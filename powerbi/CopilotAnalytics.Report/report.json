@@ -1,0 +1,101 @@
+{
+  "config": "{\"version\":\"5.55\",\"themeCollection\":{\"baseTheme\":{\"name\":\"CY24SU10\"}},\"activeSectionIndex\":0,\"defaultDrillFilterOtherVisuals\":true,\"settings\":{\"useStylableVisualContainerHeader\":true}}",
+  "layoutOptimization": 0,
+  "publicCustomVisuals": [],
+  "resourcePackages": [
+    {
+      "resourcePackage": {
+        "name": "SharedResources",
+        "type": 2,
+        "items": [
+          {
+            "name": "CY24SU10",
+            "path": "BaseThemes/CY24SU10.json",
+            "type": 202
+          }
+        ],
+        "disabled": false
+      }
+    }
+  ],
+  "sections": [
+    {
+      "name": "ReportSectionOverview",
+      "displayName": "Overview",
+      "filters": "[]",
+      "ordinal": 0,
+      "config": "{}",
+      "displayOption": 1,
+      "width": 1280.0,
+      "height": 720.0,
+      "visualContainers": [
+        {
+          "x": 24.0,
+          "y": 24.0,
+          "z": 0.0,
+          "width": 260.0,
+          "height": 120.0,
+          "config": "{\"name\":\"vcTotalCost\",\"layouts\":[{\"id\":0,\"position\":{\"x\":24,\"y\":24,\"z\":0,\"width\":260,\"height\":120,\"tabOrder\":0}}],\"singleVisual\":{\"visualType\":\"card\",\"projections\":{\"Values\":[{\"queryRef\":\"Total Net Cost\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"m\",\"Entity\":\"_Measures\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Total Net Cost\"},\"Name\":\"Total Net Cost\"}]},\"drillFilterOtherVisuals\":true}}",
+          "filters": "[]",
+          "query": "",
+          "dataTransforms": ""
+        },
+        {
+          "x": 300.0,
+          "y": 24.0,
+          "z": 1.0,
+          "width": 260.0,
+          "height": 120.0,
+          "config": "{\"name\":\"vcGitHubCost\",\"layouts\":[{\"id\":0,\"position\":{\"x\":300,\"y\":24,\"z\":1,\"width\":260,\"height\":120,\"tabOrder\":1}}],\"singleVisual\":{\"visualType\":\"card\",\"projections\":{\"Values\":[{\"queryRef\":\"GitHub Copilot Cost\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"m\",\"Entity\":\"_Measures\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"GitHub Copilot Cost\"},\"Name\":\"GitHub Copilot Cost\"}]},\"drillFilterOtherVisuals\":true}}",
+          "filters": "[]",
+          "query": "",
+          "dataTransforms": ""
+        },
+        {
+          "x": 576.0,
+          "y": 24.0,
+          "z": 2.0,
+          "width": 260.0,
+          "height": 120.0,
+          "config": "{\"name\":\"vcActiveSeats\",\"layouts\":[{\"id\":0,\"position\":{\"x\":576,\"y\":24,\"z\":2,\"width\":260,\"height\":120,\"tabOrder\":2}}],\"singleVisual\":{\"visualType\":\"card\",\"projections\":{\"Values\":[{\"queryRef\":\"Active Seats (30d)\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"m\",\"Entity\":\"_Measures\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Active Seats (30d)\"},\"Name\":\"Active Seats (30d)\"}]},\"drillFilterOtherVisuals\":true}}",
+          "filters": "[]",
+          "query": "",
+          "dataTransforms": ""
+        },
+        {
+          "x": 852.0,
+          "y": 24.0,
+          "z": 3.0,
+          "width": 260.0,
+          "height": 120.0,
+          "config": "{\"name\":\"vcAdoption\",\"layouts\":[{\"id\":0,\"position\":{\"x\":852,\"y\":24,\"z\":3,\"width\":260,\"height\":120,\"tabOrder\":3}}],\"singleVisual\":{\"visualType\":\"card\",\"projections\":{\"Values\":[{\"queryRef\":\"Adoption % (30d)\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"m\",\"Entity\":\"_Measures\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Adoption % (30d)\"},\"Name\":\"Adoption % (30d)\"}]},\"drillFilterOtherVisuals\":true}}",
+          "filters": "[]",
+          "query": "",
+          "dataTransforms": ""
+        },
+        {
+          "x": 24.0,
+          "y": 168.0,
+          "z": 4.0,
+          "width": 540.0,
+          "height": 320.0,
+          "config": "{\"name\":\"vcCostTrend\",\"layouts\":[{\"id\":0,\"position\":{\"x\":24,\"y\":168,\"z\":4,\"width\":540,\"height\":320,\"tabOrder\":4}}],\"singleVisual\":{\"visualType\":\"lineChart\",\"projections\":{\"Category\":[{\"queryRef\":\"DimDate.usage_date\"}],\"Y\":[{\"queryRef\":\"Total Net Cost\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"d\",\"Entity\":\"DimDate\",\"Type\":0},{\"Name\":\"m\",\"Entity\":\"_Measures\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"usage_date\"},\"Name\":\"DimDate.usage_date\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Total Net Cost\"},\"Name\":\"Total Net Cost\"}]},\"drillFilterOtherVisuals\":true}}",
+          "filters": "[]",
+          "query": "",
+          "dataTransforms": ""
+        },
+        {
+          "x": 580.0,
+          "y": 168.0,
+          "z": 5.0,
+          "width": 532.0,
+          "height": 320.0,
+          "config": "{\"name\":\"vcCostBySource\",\"layouts\":[{\"id\":0,\"position\":{\"x\":580,\"y\":168,\"z\":5,\"width\":532,\"height\":320,\"tabOrder\":5}}],\"singleVisual\":{\"visualType\":\"clusteredColumnChart\",\"projections\":{\"Category\":[{\"queryRef\":\"CostDaily.source\"}],\"Y\":[{\"queryRef\":\"Total Net Cost\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"c\",\"Entity\":\"CostDaily\",\"Type\":0},{\"Name\":\"m\",\"Entity\":\"_Measures\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"c\"}},\"Property\":\"source\"},\"Name\":\"CostDaily.source\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Total Net Cost\"},\"Name\":\"Total Net Cost\"}]},\"drillFilterOtherVisuals\":true}}",
+          "filters": "[]",
+          "query": "",
+          "dataTransforms": ""
+        }
+      ]
+    }
+  ]
+}

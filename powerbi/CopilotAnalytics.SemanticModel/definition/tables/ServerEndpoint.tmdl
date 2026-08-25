@@ -1,0 +1,7 @@
+/// Parameter: Fabric Lakehouse SQL analytics endpoint (server).
+/// Example: xxxxxxxx.datawarehouse.fabric.microsoft.com
+expression ServerEndpoint = "REPLACE-WITH-LAKEHOUSE-SQL-ENDPOINT" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 5a0b1c2d-0001-4000-8000-000000000001
+	queryGroup: Parameters
+
+	annotation PBI_ResultType = Text

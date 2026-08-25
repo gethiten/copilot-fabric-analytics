@@ -1,0 +1,36 @@
+# Copy this file to settings.yaml and fill in your values.
+# Secrets are NOT stored here - only the Key Vault secret NAMES are referenced.
+
+github:
+  # Org- or enterprise-level. Set 'scope' to "org" or "enterprise".
+  scope: "org"
+  org: "your-github-org"
+  enterprise: ""                      # only used when scope = "enterprise"
+  api_base: "https://api.github.com"
+  # Key Vault secret name that holds a GitHub App installation token or fine-grained PAT.
+  token_secret_name: "ghcp-api-token"
+
+copilot_studio:
+  # Application Insights resource used by the Copilot Studio agent.
+  app_insights:
+    app_id: "00000000-0000-0000-0000-000000000000"   # App Insights Application ID
+    api_base: "https://api.applicationinsights.io/v1/apps"
+    # Entra service principal (client credentials) with Reader on the App Insights resource.
+    tenant_id: "00000000-0000-0000-0000-000000000000"
+    client_id_secret_name: "appinsights-client-id"
+    client_secret_secret_name: "appinsights-client-secret"
+
+key_vault:
+  # Fabric-linked Key Vault name (or full URI) that stores the secrets above.
+  name: "kv-copilot-analytics"
+  uri: "https://kv-copilot-analytics.vault.azure.net/"
+
+lakehouse:
+  # Bronze/Silver/Gold table name prefixes.
+  bronze_prefix: "bronze_"
+  silver_prefix: "silver_"
+  gold_prefix: "gold_"
+
+ingestion:
+  # How many days back to pull on each run.
+  lookback_days: 30

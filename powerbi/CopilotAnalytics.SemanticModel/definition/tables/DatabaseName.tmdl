@@ -1,0 +1,6 @@
+/// Parameter: Lakehouse (or Warehouse) name that hosts the gold views.
+expression DatabaseName = "REPLACE-WITH-LAKEHOUSE-NAME" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 5a0b1c2d-0002-4000-8000-000000000002
+	queryGroup: Parameters
+
+	annotation PBI_ResultType = Text
