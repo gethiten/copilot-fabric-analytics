@@ -1,6 +1,3 @@
-# Local settings with real values (never commit)
-config/settings.yaml
-
 # Python / notebook artifacts
 __pycache__/
 *.pyc

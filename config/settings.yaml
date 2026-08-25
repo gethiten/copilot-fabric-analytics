@@ -1,0 +1,37 @@
+# Runtime configuration. Secrets are NOT stored here -
+# only the Key Vault secret NAMES are referenced.
+# Generated for: single-org GitHub Copilot; Copilot Studio deferred.
+
+github:
+  # "org" or "enterprise". Copilot cost/usage/audit APIs require an ORG or
+  # ENTERPRISE plan (personal Copilot does not expose these endpoints).
+  scope: "org"
+  org: "<your-github-org>"             # <-- replace with your GitHub org login
+  enterprise: ""                        # only used when scope = "enterprise"
+  api_base: "https://api.github.com"
+  # Key Vault secret name holding a GitHub App installation token or fine-grained PAT
+  # with read on: Copilot Business, Administration, Members, and audit log.
+  token_secret_name: "ghcp-api-token"
+
+copilot_studio:
+  # DEFERRED — leave as-is until you enable token telemetry.
+  # Notebook 03 and the pipeline already tolerate this being absent.
+  enabled: false
+  app_insights:
+    app_id: "00000000-0000-0000-0000-000000000000"
+    api_base: "https://api.applicationinsights.io/v1/apps"
+    tenant_id: "00000000-0000-0000-0000-000000000000"
+    client_id_secret_name: "appinsights-client-id"
+    client_secret_secret_name: "appinsights-client-secret"
+
+key_vault:
+  name: "kv-copilot-analytics"
+  uri: "https://kv-copilot-analytics.vault.azure.net/"
+
+lakehouse:
+  bronze_prefix: "bronze_"
+  silver_prefix: "silver_"
+  gold_prefix: "gold_"
+
+ingestion:
+  lookback_days: 30
