@@ -1,0 +1,4 @@
+# Runtime deps are preinstalled in the Fabric Spark runtime.
+# This file is for LOCAL development, the config validator, and CI.
+pyyaml>=6.0
+requests>=2.31

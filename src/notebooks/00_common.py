@@ -26,9 +26,27 @@ except ImportError:
 # CELL ********************
 
 def load_config(path: str = "config/settings.yaml") -> Dict[str, Any]:
-    """Load the pipeline configuration from a YAML file in the Lakehouse Files area."""
-    with open(path, "r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
+    """Load the pipeline configuration YAML.
+
+    Resolves the file across the common locations so the same notebooks work in a
+    Fabric Lakehouse (Files mount) and in local/dev runs. Pass an explicit `path`
+    to override the search.
+    """
+    import os
+
+    candidates = [
+        path,
+        f"/lakehouse/default/Files/{path}",   # Fabric: config uploaded to Lakehouse Files
+        os.path.join(os.getcwd(), path),       # local / repo-relative
+    ]
+    for candidate in candidates:
+        if os.path.exists(candidate):
+            with open(candidate, "r", encoding="utf-8") as f:
+                return yaml.safe_load(f)
+    raise FileNotFoundError(
+        "settings.yaml not found. Looked in: " + ", ".join(candidates) +
+        ". In Fabric, upload config/settings.yaml to the Lakehouse Files area."
+    )
 
 
 def get_secret(kv_name: str, secret_name: str) -> str:

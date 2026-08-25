@@ -15,7 +15,7 @@ Extract **GitHub Copilot** and **Copilot Studio** usage, cost, and token telemet
 > - **Architecture & build steps:** [docs/architecture.md](docs/architecture.md)
 > - **Operations runbook (Fabric setup → Bronze/Silver/Gold → analytics):** [docs/RUNBOOK.md](docs/RUNBOOK.md)
 > - **Wiring checklist (every value to fill):** [docs/WIRING.md](docs/WIRING.md)
-> - **Validate config locally:** `python scripts/validate_config.py`
+> - **Validate config locally:** `pip install -r requirements.txt` then `python scripts/validate_config.py`
 
 ## Layout
 ```
