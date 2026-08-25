@@ -55,16 +55,23 @@ docs/token_telemetry_setup.md  # how to emit real token counts from Copilot Stud
 > custom telemetry in `docs/token_telemetry_setup.md`.
 
 ## Run order (in Fabric)
-1. Upload `config/settings.yaml` to the Lakehouse **Files** area.
-2. Import the `src/notebooks/*.py` files as Fabric notebooks (attach to the Lakehouse).
-3. Run `01`, `02`, `03` (ingest) → then `04` (transform).
-4. Orchestrate with the **Data Factory pipeline** in `pipelines/`: import
+1. **Create your config** (it's git-ignored, so a fresh clone won't include it):
+   `cp config/settings.example.yaml config/settings.yaml`, set `github.org`, then
+   validate: `pip install -r requirements.txt` and `python scripts/validate_config.py`.
+2. Upload `config/settings.yaml` to the Lakehouse **Files** area.
+3. Import the `src/notebooks/*.py` files as Fabric notebooks (attach to the Lakehouse).
+4. Run `01`, `02`, `03` (ingest) → then `04` (transform).
+   `03` self-skips while `copilot_studio.enabled: false`.
+5. Orchestrate with the **Data Factory pipeline** in `pipelines/`: import
    `pl_copilot_analytics_daily.json`, replace the `<REPLACE_WITH_*>` notebook/workspace
    IDs, then attach `trg_copilot_analytics_daily.json` for a daily 06:00 UTC run.
-5. Create the reporting views: run `sql/gold_views.sql` against the Lakehouse SQL
+6. Create the reporting views: run `sql/gold_views.sql` against the Lakehouse SQL
    analytics endpoint.
-6. Build Power BI reports on the views (start with `vw_copilot_cost_daily`,
+7. Build Power BI reports on the views (start with `vw_copilot_cost_daily`,
    `vw_copilot_cost_monthly`, `vw_github_copilot_adoption`).
+
+> Full step-by-step (incl. Fabric provisioning and pulling data out for analytics) is in
+> [docs/RUNBOOK.md](docs/RUNBOOK.md); every value to fill is in [docs/WIRING.md](docs/WIRING.md).
 
 ## Reporting views (`sql/gold_views.sql`)
 | View | Use |
