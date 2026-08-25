@@ -1,5 +1,8 @@
 # Copilot Fabric Analytics
 
+[![validate](https://github.com/gethiten/copilot-fabric-analytics/actions/workflows/validate.yml/badge.svg)](https://github.com/gethiten/copilot-fabric-analytics/actions/workflows/validate.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Extract **GitHub Copilot** and **Copilot Studio** usage, cost, and token telemetry into a
 **Microsoft Fabric Lakehouse** (medallion: bronze → silver → gold) for Power BI analytics.
 
