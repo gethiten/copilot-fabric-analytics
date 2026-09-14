@@ -12,7 +12,7 @@ Extract **GitHub Copilot** and **Copilot Studio** usage, cost, and token telemet
   [docs/token_telemetry_setup.md](docs/token_telemetry_setup.md)).
 - A unified **`gold_fact_copilot_cost`** table + **`gold_dim_date`** ready for Power BI.
 
-> **Status: code-complete, not yet wired.** All notebooks, pipeline, SQL, and Power BI
+> **Status: code-complete.** All notebooks, pipeline, SQL, and Power BI
 > assets are ready with placeholders only. See the architecture and the step-by-step
 > wiring checklist before deploying:
 > - **Architecture & build steps:** [docs/architecture.md](docs/architecture.md)
